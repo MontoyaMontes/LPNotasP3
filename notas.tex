@@ -1,0 +1,254 @@
+% Aquí comienza el préambulo
+\documentclass[letterpaper, 12pt]{article}
+
+% Soporte para acentos.
+\usepackage[utf8]{inputenc}
+
+%Español, división de sílabas
+\usepackage[spanish,mexico]{babel}
+%Numbers set
+\usepackage{amssymb}
+%Usar codificación T1
+\usepackage[T1]{fontenc}
+
+% Una forma de establecer los márgenes
+\topmargin = -2cm         % default 1 cm
+\oddsidemargin= 0cm       % default 2 cm
+\textheight = 23cm        % default 15 cm
+\textwidth = 17cm         % default 12 cm
+
+% Paquetes que usaremos.
+\usepackage{soul}
+\usepackage{enumerate}
+\usepackage{longtable} % Tablas grandes
+\usepackage{pdflscape} % Cambiar orientación de una parte del documento
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepgflibrary{arrows}
+\usepackage{listings}
+
+\newtheorem{definicion}{Definición}
+\newtheorem{nota}{Nota}
+\newtheorem{teorema}{Teorema}
+\newtheorem{lema}{Lema}
+\newtheorem{observacion}{Observación}
+\newtheorem{demostracion}{Demostración}
+\newtheorem{corolario}{Corolario}
+\newtheorem{ejemplo}{Ejemplo}
+\newtheorem{ejemploH}{Ejemplo en Haskell}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+% Titulo.
+\title{Lenguajes de Programación\\Facultad de ciencias\\ Universidad Nacional Autónoma de México\\ Notas para el segundo examen parcial}
+% Nombre de los integrantes del equipo
+\author{Montoya Montes Pedro}
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Definiciones dadas por Ricardo (No formales)}
+	\begin{definicion}
+		Tipo: Abstracción de un conjunto de datos.
+	\end{definicion}
+	\begin{definicion}
+		Tipo básico: Son las pri	mitivas del lenguaje.
+	\end{definicion}	
+	\begin{definicion}
+		Tipo abstacto: Son aquellas construidas a partir de las primitivas.
+	\end{definicion}
+	\begin{definicion}
+		Juicio de tipo: Es un conjunto de reglas que determina la correctud de tipos de una expresión.
+	\end{definicion}	
+	\begin{definicion}
+		Inferencia: Determina  los valores de los tipos de una expresión.
+	\end{definicion}
+	\begin{definicion}
+		Lenguaje sólido: Son aquellos que se sabe el comportamiento de sus operaciones
+	\end{definicion}
+	\begin{definicion}
+		Lenguaje seguro: Son aquellos que las operaciones se aplican con el tipo correcto.
+	\end{definicion}	
+	\begin{definicion}
+		Lenguaje envolvente: Es aquel que alberga código ajeno al lenguaje.
+	\end{definicion}
+	\begin{definicion}
+		Lenguaje incrustado: Es el código escrito dentro de otro lenguaje.
+	\end{definicion}
+	\begin{definicion}
+		Variable de tipo: Determina el tipo de cosas polimorficas.
+	\end{definicion}
+\newpage
+\section{Ejercicio de Memoization}
+\textbf{El siguiente es un ejemplo de memoization con la función "lucas".}
+
+	\begin{lstlisting}
+(define lucas (lambda (n))
+  (cond
+    [(= n 0) 1]
+    [(= n 1) 2]
+    [else (+(lucas (- n 1))(lucas (- n 2)))]))
+	\end{lstlisting}
+\textbf{Creacion del diccionario:}
+
+	\begin{lstlisting}	  
+(define dic (make_hash '()))
+ (hash_set dic 0 1)		//Caso base 1 de lucas.
+ (hash_set dic 2 1))		//Caso base 1 de lucas.  
+	\end{lstlisting}	
+\textbf{Creación de la memoization:}
+
+	\begin{lstlisting}	  
+(define (lucas n)	//Conservamos el nombre original. 
+  (cond
+    [(hash_ref dic n #f) (hash_ref dic n #f)]
+    [else (let m (+(lucas (- n 1))(lucas (- n 2)))
+    (begin (hash_set dic n m)m))]))	
+	\end{lstlisting}	
+\section{Recolector de basura}
+\subsection{Tipos de recolectores de basura}
+\textbf{1.Marcado y compactación.}
+
+\begin{minipage}{1.5in}
+\begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{0x05} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x04}} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x03}} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x01}} \\ \hline
+ \end{tabular}
+\end{minipage}
+\begin{minipage}{1.5in}
+ \begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{} \\ \hline
+\multicolumn{3}{|l|}{} \\ \hline
+\multicolumn{3}{|l|}{} \\ \hline
+\multicolumn{3}{|l|}{0x05} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+ \end{tabular}    
+\end{minipage}
+
+\textbf{2.Marcado y barrido.}
+
+\begin{minipage}{1.5in}
+\begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{\textst{0x05}} \\ \hline
+\multicolumn{3}{|l|}{0x04} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x03}} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x01}} \\ \hline
+ \end{tabular}
+\end{minipage}
+\begin{minipage}{1.5in}
+ \begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{} \\ \hline
+\multicolumn{3}{|l|}{0x04} \\ \hline
+\multicolumn{3}{|l|}{} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+\multicolumn{3}{|l|}{} \\ \hline
+ \end{tabular}    
+\end{minipage}
+
+\textbf{3.Copia y pega usando semiespacios.}
+
+\begin{minipage}{1.5in}
+\begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{0x05} \\ \hline
+\multicolumn{3}{|l|}{0x04} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x03}} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+\multicolumn{3}{|l|}{\textst{0x01}} \\ \hline
+ \end{tabular}
+\end{minipage}
+\begin{minipage}{1.5in}
+\begin{tabular}{|l|l|l|}
+\hline
+ 0x4&  &  \\ \hline
+ &  0x3&  \\ \hline
+ &  &  0x2\\ \hline
+0x5 &0x1  &  \\ \hline
+ &  &  \\ \hline 
+\end{tabular}
+Heap
+\end{minipage}
+\begin{minipage}{1.5in}
+ \begin{tabular}{ccc}
+\hline
+\multicolumn{3}{|c|}{} \\ \hline
+\multicolumn{3}{|l|}{} \\ \hline
+\multicolumn{3}{|l|}{0x05} \\ \hline
+\multicolumn{3}{|l|}{0x04} \\ \hline
+\multicolumn{3}{|l|}{0x02} \\ \hline
+ \end{tabular}    
+\end{minipage}
+\begin{minipage}{1.5in}
+\begin{tabular}{|l|l|l|}
+\hline
+ &  &  \\ \hline
+ &  &  \\ \hline
+ &  &  \\ \hline
+ &  &  \\ \hline
+0x5 & 0x4 &  0x2\\ \hline 
+\end{tabular}
+Heap  
+\end{minipage}
+\subsection{Pros y contras de cada tipo de recolector de basura}
+\begin{enumerate}
+	\item Marcado y compactación:\\
+	-No hay fragmentación de memoria.\\
+	-Eficiente en memoria.
+	\item Marcado y barrido:\\
+	-Deja fragmetación en memoria.\\
+	-Eficiente en tiempo.
+	\item Copia y pega usando semiespacios:\\
+	-Pierde la mitad del heap.\\
+	-Pierde tiempo en acomodo,pero no tanto como en marcado y compactación.
+\end{enumerate}
+
+\subsection{Forma de recolección}
+	\begin{definicion}
+		Conjunto raíz:? 
+	\end{definicion}
+	\begin{definicion}
+		Formas de detección de basura:\\
+		1.Con caminos.\\
+		2.Con indices.
+	\end{definicion}
+
+\subsection{Tecnicas de recolección}
+	Existen dos tecnicas de recolección:
+	\begin{enumerate}
+		\item Tiempo: Es aquel que en un periodo de tiempo se ejecuta el recolector de basura(se puede también diseñar de tal manera en la que se ejecute en intervalos de tiempo).
+		\item Espacio: Es aquel en la que cada cantidad de objetos basura se ejecuta el recolector de basura.
+	\end{enumerate}
+
+\section{RP3}
+\begin{enumerate}
+	\item Definiciones:
+	\begin{enumerate}
+		\item Recolector de Basura: Es un algoritmo el cual limpia la memoria de forma automatizada.
+		\item Conjunto raíz: ?
+	\end{enumerate}
+\end{enumerate}
+\end{document} 
+
