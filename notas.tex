@@ -67,7 +67,7 @@
 		Tipo: Abstracción de un conjunto de datos.
 	\end{definicion}
 	\begin{definicion}
-		Tipo básico: Son las pri	mitivas del lenguaje.
+		Tipo básico: Son las primitivas del lenguaje.
 	\end{definicion}	
 	\begin{definicion}
 		Tipo abstacto: Son aquellas construidas a partir de las primitivas.
@@ -76,7 +76,7 @@
 		Juicio de tipo: Es un conjunto de reglas que determina la correctud de tipos de una expresión.
 	\end{definicion}	
 	\begin{definicion}
-		Inferencia: Determina  los valores de los tipos de una expresión.
+		Inferencia: Determina los valores de los tipos de una expresión.
 	\end{definicion}
 	\begin{definicion}
 		Lenguaje sólido: Son aquellos que se sabe el comportamiento de sus operaciones
@@ -93,6 +93,9 @@
 	\begin{definicion}
 		Variable de tipo: Determina el tipo de cosas polimorficas.
 	\end{definicion}
+	\begin{definicion}
+		Estado: 	
+	\end{definicion}	
 \newpage
 \section{Ejercicio de Memoization}
 \textbf{El siguiente es un ejemplo de memoization con la función "lucas".}
@@ -109,7 +112,7 @@
 	\begin{lstlisting}	  
 (define dic (make_hash '()))
  (hash_set dic 0 1)		//Caso base 1 de lucas.
- (hash_set dic 2 1))		//Caso base 1 de lucas.  
+ (hash_set dic 1 2))		//Caso base 2 de lucas.  
 	\end{lstlisting}	
 \textbf{Creación de la memoization:}
 
@@ -227,7 +230,7 @@ Heap
 
 \subsection{Forma de recolección}
 	\begin{definicion}
-		Conjunto raíz:? 
+		Conjunto raíz: Es aquello que se genera cuando se hace ejecución en un programa.
 	\end{definicion}
 	\begin{definicion}
 		Formas de detección de basura:\\
@@ -247,7 +250,7 @@ Heap
 	\item Definiciones:
 	\begin{enumerate}
 		\item Recolector de Basura: Es un algoritmo el cual limpia la memoria de forma automatizada.
-		\item Conjunto raíz: ?
+		\item Conjunto raíz: Es aquello que se genera cuando se hace ejecución en un programa.
 	\end{enumerate}
 \end{enumerate}
 \end{document} 
